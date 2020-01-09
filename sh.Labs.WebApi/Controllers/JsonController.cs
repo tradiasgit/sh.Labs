@@ -15,12 +15,12 @@ namespace sh.Labs.WebApi.Controllers
     {
        
 
-        private readonly ILogger<WeatherForecastController> _logger;
+        //private readonly ILogger<WeatherForecastController> _logger;
 
-        public JsonController(ILogger<WeatherForecastController> logger)
-        {
-            _logger = logger;
-        }
+        //public JsonController(ILogger<WeatherForecastController> logger)
+        //{
+        //    //_logger = logger;
+        //}
 
         [HttpGet("{id}")]
         public string Get(string id)
