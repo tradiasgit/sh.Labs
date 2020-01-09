@@ -1,0 +1,59 @@
+﻿@page "/fetchdata"
+
+@using sh.Labs.BlazorApp.Data
+@inject WeatherForecastService ForecastService
+
+<h1>Weather forecast</h1>
+
+<p>This component demonstrates fetching data from a service.</p>
+
+@if (forecasts == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Temp. (C)</th>
+                <th>Temp. (F)</th>
+                <th>Summary</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var forecast in forecasts)
+            {
+                <tr>
+                    <td>@forecast.Date.ToShortDateString()</td>
+                    <td>@forecast.TemperatureC</td>
+                    <td>@forecast.TemperatureF</td>
+                    <td>@forecast.Summary</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <input placeholder="Something todo" @bind="newForecast" />
+    <button @onclick="AddForecast">Add Forecast</button>
+}
+
+@code {
+        List<WeatherForecast> forecasts;
+        private string newForecast;
+
+        private void AddForecast()
+        {
+            if (!string.IsNullOrWhiteSpace(newForecast))
+            {
+                forecasts.Add(new WeatherForecast { Summary = newForecast, TemperatureC=0,Date=DateTime.Now });
+                newForecast = string.Empty;
+            }
+        }
+    }
+@functions {
+    protected override async Task OnInitializedAsync()
+    {
+        forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
+    }
+}
